@@ -67,3 +67,5 @@ tasks.named('test') {
 springBoot {
 	buildInfo()
 }
+
+compileJava.dependsOn 'spotlessApply'
