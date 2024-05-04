@@ -28,3 +28,16 @@ jobs:
 
       - name: Build with gradle
         run: ./gradlew clean build
+
+      - if: ${{ github.ref == 'refs/heads/main' }}
+        name: Login to Docker hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - if: ${{ github.ref == 'refs/heads/main' }}
+        name: Build and Publish Docker Image
+        run: |
+          ./gradlew bootBuildImage -DskipTests
+          docker push ${{ secrets.DOCKERHUB_USER }}/catalog-service

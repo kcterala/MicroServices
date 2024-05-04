@@ -68,4 +68,8 @@ springBoot {
 	buildInfo()
 }
 
+tasks.named("bootBuildImage") {
+	imageName = "kcterala/${project.name}"
+}
+
 compileJava.dependsOn 'spotlessApply'
