@@ -3,6 +3,26 @@ plugins {
 	id 'org.springframework.boot' version '3.2.5'
 	id 'io.spring.dependency-management' version '1.1.4'
 	id 'com.gorylenko.gradle-git-properties' version '2.4.1'
+	id "com.diffplug.spotless" version "6.25.0"
+}
+
+gitProperties {
+	failOnNoGitDirectory = false
+	keys = [
+			'git.branch',
+			'git.commit.id.abbrev',
+			'git.commit.user.name',
+			'git.commit.message.full'
+	]
+}
+
+spotless {
+	java {
+		importOrder()
+		removeUnusedImports()
+		palantirJavaFormat("2.35.0")
+		formatAnnotations()
+	}
 }
 
 group = 'dev.kcterala'
@@ -28,6 +48,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.flywaydb:flyway-core'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 	runtimeOnly 'org.postgresql:postgresql'
@@ -36,6 +57,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.testcontainers:postgresql'
+	testImplementation 'io.rest-assured:rest-assured'
 }
 
 tasks.named('test') {
